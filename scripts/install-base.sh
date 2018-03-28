@@ -9,10 +9,10 @@ else
 	DISK='/dev/sda'
 fi
 
-FQDN='vagrant-arch.vagrantup.com'
+FQDN='arch-64'
 KEYMAP='us'
 LANGUAGE='en_US.UTF-8'
-PASSWORD=$(/usr/bin/openssl passwd -crypt 'vagrant')
+PASSWORD=$(/usr/bin/openssl passwd -crypt 'arch')
 TIMEZONE='UTC'
 
 CONFIG_SCRIPT='/usr/local/bin/arch-config.sh'
@@ -70,15 +70,11 @@ cat <<-EOF > "${TARGET_DIR}${CONFIG_SCRIPT}"
 	/usr/bin/sed -i 's/#UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 	/usr/bin/systemctl enable sshd.service
 
-	# Vagrant-specific configuration
-	/usr/bin/useradd --password ${PASSWORD} --comment 'Vagrant User' --create-home --user-group vagrant
-	echo 'Defaults env_keep += "SSH_AUTH_SOCK"' > /etc/sudoers.d/10_vagrant
-	echo 'vagrant ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_vagrant
-	/usr/bin/chmod 0440 /etc/sudoers.d/10_vagrant
-	/usr/bin/install --directory --owner=vagrant --group=vagrant --mode=0700 /home/vagrant/.ssh
-	/usr/bin/curl --output /home/vagrant/.ssh/authorized_keys --location https://raw.github.com/mitchellh/vagrant/master/keys/vagrant.pub
-	/usr/bin/chown vagrant:vagrant /home/vagrant/.ssh/authorized_keys
-	/usr/bin/chmod 0600 /home/vagrant/.ssh/authorized_keys
+	/usr/bin/useradd --password ${PASSWORD} --comment 'cloud user' --create-home --user-group arch
+	echo 'Defaults env_keep += "SSH_AUTH_SOCK"' > /etc/sudoers.d/10_arch
+	echo 'arch ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers.d/10_arch
+	/usr/bin/chmod 0440 /etc/sudoers.d/10_arch
+	/usr/bin/install --directory --owner=arch --group=arch --mode=0700 /home/arch/.ssh
 
 	# clean up
 	/usr/bin/pacman -Rcns --noconfirm gptfdisk
