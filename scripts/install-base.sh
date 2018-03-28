@@ -51,7 +51,7 @@ echo '==> Bootstrapping the base installation'
 /usr/bin/sed -i 's/TIMEOUT 50/TIMEOUT 10/' "${TARGET_DIR}/boot/syslinux/syslinux.cfg"
 
 echo '==> Generating the filesystem table'
-/usr/bin/genfstab -p ${TARGET_DIR} >> "${TARGET_DIR}/etc/fstab"
+/usr/bin/genfstab -p -U ${TARGET_DIR} >> "${TARGET_DIR}/etc/fstab"
 
 echo '==> Generating the system configuration script'
 /usr/bin/install --mode=0755 /dev/null "${TARGET_DIR}${CONFIG_SCRIPT}"
