@@ -3,12 +3,7 @@
 # stop on errors
 set -eu
 
-if [[ $PACKER_BUILDER_TYPE == "qemu" ]]; then
-	DISK='/dev/vda'
-else
-	DISK='/dev/sda'
-fi
-
+DISK='/dev/vda'
 FQDN='arch-64'
 KEYMAP='us'
 LANGUAGE='en_US.UTF-8'
