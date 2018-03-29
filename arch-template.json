@@ -1,11 +1,12 @@
 {
     "variables": {
-        "iso_url": "https://mirrors.kernel.org/archlinux/iso/2018.03.01/archlinux-2018.03.01-x86_64.iso",
-        "iso_checksum_url": "https://mirrors.kernel.org/archlinux/iso/2018.03.01/sha1sums.txt",
+        "iso_url": "https://mirror.rackspace.com/archlinux/iso/2018.03.01/archlinux-2018.03.01-x86_64.iso",
+        "iso_checksum_url": "https://mirror.rackspace.com/archlinux/iso/2018.03.01/sha1sums.txt",
         "iso_checksum_type": "sha1",
         "ssh_timeout": "20m",
         "country": "US",
-        "headless": "true"
+        "headless": "true",
+        "gce_snapshot": "https://aur.archlinux.org/cgit/aur.git/snapshot/gce-compute-image-packages.tar.gz"
     },
     "builders": [
         {
@@ -35,6 +36,12 @@
             "execute_command": "{{ .Vars }} COUNTRY={{ user `country` }} sudo -E -S bash '{{ .Path }}'",
             "expect_disconnect": true,
             "script": "scripts/install-base.sh"
+        },
+        {
+            "type": "shell",
+            "execute_command": "{{ .Vars }} GCE_SNAPSHOT={{ user `gce_snapshot` }} sudo -E -S bash '{{ .Path }}'",
+            "expect_disconnect": true,
+            "script": "scripts/install-gce.sh"
         },
         {
             "type": "shell",
