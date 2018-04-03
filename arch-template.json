@@ -23,6 +23,7 @@
                 "/usr/bin/bash ./enable-ssh.sh<enter>"
             ],
             "disk_size": 3192,
+            "format": "raw",
             "ssh_username": "arch",
             "ssh_password": "arch",
             "ssh_timeout": "{{ user `ssh_timeout` }}",
@@ -36,6 +37,12 @@
             "execute_command": "{{ .Vars }} COUNTRY={{ user `country` }} sudo -E -S bash '{{ .Path }}'",
             "expect_disconnect": true,
             "script": "scripts/install-base.sh"
+        },
+        {
+            "type": "shell",
+            "execute_command": "{{ .Vars }} GCE_SNAPSHOT={{ user `gce_snapshot` }} sudo -E -S bash '{{ .Path }}'",
+            "expect_disconnect": true,
+            "script": "scripts/configure-image.sh"
         },
         {
             "type": "shell",
