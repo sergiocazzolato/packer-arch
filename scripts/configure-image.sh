@@ -50,6 +50,7 @@ EOF
 
 echo "==> Configuring grub"
 
-pacman -S --noconfirm grub
+pacman -S --noconfirm grub os-prober
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=*/GRUB_CMDLINE_LINUX_DEFAULT="console=ttyS0,38400n8d"/g' /etc/default/grub
+grub-install --recheck --debug /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
